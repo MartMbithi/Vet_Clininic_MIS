@@ -29,9 +29,10 @@ require_once('../config/config.php');
 if (isset($_POST['login'])) {
     $login_username = trim($_POST['login_username']);
     $login_password = sha1(md5($_POST['login_password']));
+    $login_rank  = $_POST['login_rank'];
     $stmt = $mysqli->prepare("SELECT login_username, login_password, login_rank, login_customer_id, login_specialist_id, login_admin_id  
-    FROM login  WHERE  login_username =? AND login_password =? ");
-    $stmt->bind_param('ss', $login_username, $login_password);
+    FROM login  WHERE  login_username =? AND login_password =? AND login_rank=?");
+    $stmt->bind_param('sss', $login_username, $login_password, $login_rank);
     $stmt->execute();
     $stmt->bind_result($login_username, $login_password, $login_rank, $login_customer_id, $login_specialist_id, $login_admin_id);
     $rs = $stmt->fetch();
@@ -49,7 +50,7 @@ if (isset($_POST['login'])) {
     } else if ($rs && $login_rank == 'Customer') {
         header("location:customer_dashboard");
     } else {
-        $err = "Incorrect Login Username Or Password";
+        $err = "Incorrect Login Username, Login Rank Or Password";
     }
 }
 require_once('../partials/head.php');

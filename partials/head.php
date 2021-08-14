@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="../public/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet">
     <link href="../public/css/theme.min.css" rel="stylesheet">
+    <link href="../public/plugins/leaflet/leaflet.css" rel="stylesheet">
+    <link href="../public/plugins/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="../public/plugins/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
     <!-- IziAlerts -->
     <link rel="stylesheet" type="text/css" href="../public/plugins/iziToast/iziToast.min.css">
 </head>

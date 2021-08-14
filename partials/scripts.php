@@ -18,7 +18,9 @@
 <script src="perfect-scrollbar/perfect-scrollbar.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 <script src="../public/js/theme.min.js"></script>
-
+<script src="../public/plugins/leaflet/leaflet.js"></script>
+<script src="../public/plugins/leaflet.markercluster/leaflet.markercluster.js"></script>
+<script src="../public/plugins/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
 <!-- iZi Toast Js -->
 <script src="../public/plugins/iziToast/iziToast.min.js" type="text/javascript"></script>
 <?php if (isset($success)) { ?>
