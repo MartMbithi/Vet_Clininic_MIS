@@ -23,6 +23,35 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+session_start();
+require_once('../config/config.php');
+/* Login */
+if (isset($_POST['login'])) {
+    $login_username = trim($_POST['login_username']);
+    $login_password = sha1(md5($_POST['login_password']));
+    $stmt = $mysqli->prepare("SELECT login_username, login_password, login_rank, login_customer_id, login_specialist_id, login_admin_id  
+    FROM login  WHERE  login_username =? AND login_password =? ");
+    $stmt->bind_param('ss', $login_username, $login_password);
+    $stmt->execute();
+    $stmt->bind_result($login_username, $login_password, $login_rank, $login_customer_id, $login_specialist_id, $login_admin_id);
+    $rs = $stmt->fetch();
+
+    //Persist User Sessions
+    $_SESSION['login_admin_id'] = $login_admin_id;
+    $_SESSION['login_customer_id'] = $login_customer_id;
+    $_SESSION['login_specialist_id'] = $login_specialist_id;
+    $_SESSION['login_rank'] = $login_rank;
+
+    if ($rs && $login_rank == 'Administrator') {
+        header("location:admin_dashboard");
+    } else if ($rs && $login_rank == 'Specialist') {
+        header("location:specialist_dashboard");
+    } else if ($rs && $login_rank == 'Customer') {
+        header("location:customer_dashboard");
+    } else {
+        $err = "Incorrect Login Username Or Password";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
