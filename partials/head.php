@@ -19,4 +19,5 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
     <link href="../public/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet">
     <link href="../public/css/theme.min.css" rel="stylesheet">
+
 </head>

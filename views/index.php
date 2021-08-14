@@ -46,26 +46,39 @@ require_once('../partials/head.php');
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h3>Login</h3>
-                                        <p class="mb-0 fs--1"><span class="font-weight-semi-bold">New User? </span><a href="register.html">Create account</a></p>
+                                        <p class="mb-0 fs--1"><span class="font-weight-semi-bold">New User? </span><a href="customer_register">Create Customer Account</a></p>
                                     </div>
-                                    <form>
-                                        <div class="form-group"><label for="split-login-email">Email address</label><input class="form-control" id="split-login-email" type="email" /></div>
+                                    <form method="post">
                                         <div class="form-group">
-                                            <div class="d-flex justify-content-between"><label for="split-login-password">Password</label><a class="fs--1" href="forgot-password.html">Forgot Password?</a></div><input class="form-control" id="split-login-password" type="password" />
+                                            <label for="split-login-email">Login Username</label>
+                                            <input class="form-control" required name="login_username" id="split-login-email" type="text" />
                                         </div>
-                                        <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="split-checkbox" /><label class="custom-control-label" for="split-checkbox">Remember me</label></div>
-                                        <div class="form-group"><button class="btn btn-primary btn-block mt-3" type="submit" name="submit">Log in</button></div>
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="split-login-password">Login Password</label>
+                                                <a class="fs--1" href="forgot_password">
+                                                    Forgot Password?
+                                                </a>
+                                            </div>
+                                            <input class="form-control" required name="login_password" id="split-login-password" type="password" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="split-login-password">Login In As</label>
+                                            </div>
+                                            <select name="login_rank" class="form-control">
+                                                <option>Administrator</option>
+                                                <option>Specialist</option>
+                                                <option>Customer</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-block mt-3" type="submit" name="login">
+                                                Log in
+                                            </button>
+                                        </div>
                                     </form>
-                                    <div class="w-100 position-relative mt-4">
-                                        <hr class="text-300" />
-                                        <div class="position-absolute absolute-centered t-0 px-3 bg-white text-sans-serif fs--1 text-500 text-nowrap">or log in with</div>
-                                    </div>
-                                    <div class="form-group mb-0">
-                                        <div class="row no-gutters">
-                                            <div class="col-sm-6 pr-sm-1"><a class="btn btn-outline-google-plus btn-sm btn-block mt-2" href="#"><span class="fab fa-google-plus-g mr-2" data-fa-transform="grow-8"></span> google</a></div>
-                                            <div class="col-sm-6 pl-sm-1"><a class="btn btn-outline-facebook btn-sm btn-block mt-2" href="#"><span class="fab fa-facebook-square mr-2" data-fa-transform="grow-8"></span> facebook</a></div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
