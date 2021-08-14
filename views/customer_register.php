@@ -25,8 +25,33 @@
  */
 session_start();
 require_once('../config/config.php');
-/* Sign Up */
+/* Login */
+if (isset($_POST['login'])) {
+    $login_username = trim($_POST['login_username']);
+    $login_password = sha1(md5($_POST['login_password']));
+    $stmt = $mysqli->prepare("SELECT login_username, login_password, login_rank, login_customer_id, login_specialist_id, login_admin_id  
+    FROM login  WHERE  login_username =? AND login_password =? ");
+    $stmt->bind_param('ss', $login_username, $login_password);
+    $stmt->execute();
+    $stmt->bind_result($login_username, $login_password, $login_rank, $login_customer_id, $login_specialist_id, $login_admin_id);
+    $rs = $stmt->fetch();
 
+    //Persist User Sessions
+    $_SESSION['login_admin_id'] = $login_admin_id;
+    $_SESSION['login_customer_id'] = $login_customer_id;
+    $_SESSION['login_specialist_id'] = $login_specialist_id;
+    $_SESSION['login_rank'] = $login_rank;
+
+    if ($rs && $login_rank == 'Administrator') {
+        header("location:admin_dashboard");
+    } else if ($rs && $login_rank == 'Specialist') {
+        header("location:specialist_dashboard");
+    } else if ($rs && $login_rank == 'Customer') {
+        header("location:customer_dashboard");
+    } else {
+        $err = "Incorrect Login Username Or Password";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -49,38 +74,44 @@ require_once('../partials/head.php');
                                 <div class="card-header bg-circle-shape text-center p-2"><a class="text-white text-sans-serif font-weight-extra-bold fs-4 z-index-1 position-relative" href="../">Pet Health Management System</a></div>
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h3>Login</h3>
-                                        <p class="mb-0 fs--1"><span class="font-weight-semi-bold">New User? </span><a href="customer_register">Create Customer Account</a></p>
+                                        <h3>Sign Up</h3>
+                                        <p class="mb-0 fs--1"><span class="font-weight-semi-bold">Already Has Account ? </span><a href="../">Login</a></p>
                                     </div>
-                                    <form method="post">
+                                    <form method="POST">
                                         <div class="form-group">
-                                            <label for="split-login-email">Login Username</label>
-                                            <input class="form-control" required name="login_username" id="split-login-email" type="text" />
+                                            <label for="split-name">
+                                                Full Name
+                                            </label>
+                                            <input class="form-control" required type="text" name="customer_name" id="split-name" />
                                         </div>
                                         <div class="form-group">
-                                            <div class="d-flex justify-content-between">
-                                                <label for="split-login-password">Login Password</label>
-                                                <a class="fs--1" href="forgot_password">
-                                                    Forgot Password?
-                                                </a>
+                                            <label for="split-name">
+                                                Mobile Phone Number
+                                            </label>
+                                            <input class="form-control" required type="text" name="customer_mobile" id="split-name" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="split-email">
+                                                Email Address
+                                            </label>
+                                            <input class="form-control" required name="customer_email" type="email" id="split-email" />
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <label for="split-password">
+                                                    Login Username
+                                                </label>
+                                                <input class="form-control" required type="login_username" id="split-password" />
                                             </div>
-                                            <input class="form-control" required name="login_password" id="split-login-password" type="password" />
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-flex justify-content-between">
-                                                <label for="split-login-password">Login In As</label>
+                                            <div class="form-group col-6">
+                                                <label for="split-confirm-password">
+                                                    Login Password
+                                                </label>
+                                                <input class="form-control" required type="password" name="login_password" id="split-confirm-password" />
                                             </div>
-                                            <select name="login_rank" class="form-control">
-                                                <option>Administrator</option>
-                                                <option>Specialist</option>
-                                                <option>Customer</option>
-                                            </select>
                                         </div>
-
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-block mt-3" type="submit" name="login">
-                                                Log in
-                                            </button>
+                                            <button class="btn btn-primary btn-block mt-3" type="submit" name="register">Register</button>
                                         </div>
                                     </form>
                                 </div>
