@@ -25,31 +25,51 @@
  */
 session_start();
 require_once('../config/config.php');
-/* Login */
-if (isset($_POST['login'])) {
-    $login_username = trim($_POST['login_username']);
+require_once('../config/codeGen.php');
+
+/* Register Customer Account */
+if (isset($_POST['register'])) {
+    /* Customer Attributes */
+    $customer_id = $sys_gen_id;
+    $customer_name = $_POST['customer_name'];
+    $customer_email  = $_POST['customer_email'];
+    $customer_mobile  = $_POST['customer_mobile'];
+    $customer_major  = $_POST['customer_major'];
+
+    /* Customer Login Attributes */
+    $login_id = $sys_gen_id_alt_1;
+    $login_username = $_POST['login_username'];
     $login_password = sha1(md5($_POST['login_password']));
-    $stmt = $mysqli->prepare("SELECT login_username, login_password, login_rank, login_customer_id, login_specialist_id, login_admin_id  
-    FROM login  WHERE  login_username =? AND login_password =? ");
-    $stmt->bind_param('ss', $login_username, $login_password);
-    $stmt->execute();
-    $stmt->bind_result($login_username, $login_password, $login_rank, $login_customer_id, $login_specialist_id, $login_admin_id);
-    $rs = $stmt->fetch();
+    $login_rank = 'Customer';
 
-    //Persist User Sessions
-    $_SESSION['login_admin_id'] = $login_admin_id;
-    $_SESSION['login_customer_id'] = $login_customer_id;
-    $_SESSION['login_specialist_id'] = $login_specialist_id;
-    $_SESSION['login_rank'] = $login_rank;
 
-    if ($rs && $login_rank == 'Administrator') {
-        header("location:admin_dashboard");
-    } else if ($rs && $login_rank == 'Specialist') {
-        header("location:specialist_dashboard");
-    } else if ($rs && $login_rank == 'Customer') {
-        header("location:customer_dashboard");
+    /* Prevent Double Entries */
+    $sql = "SELECT * FROM  customer WHERE  customer_email='$customer_email' || customer_mobile = '$customer_mobile'  ";
+    $res = mysqli_query($mysqli, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        $row = mysqli_fetch_assoc($res);
+        if ($customer_email == $row['customer_email'] || $customer_mobile == $row['customer_mobile']) {
+            $err =  "Customer User With This Email Or Phone Number Exists";
+        }
     } else {
-        $err = "Incorrect Login Username Or Password";
+        /* Persist Customer Details */
+        $query = "INSERT INTO customer (customer_id, customer_name, customer_email, customer_mobile, customer_major) VALUES(?,?,?,?,?)";
+        $login = "INSERT INTO login (login_id, login_username, login_password, login_rank, login_customer_id) VALUES(?,?,?,?,?)";
+
+        $stmt = $mysqli->prepare($query);
+        $loginstmt = $mysqli->prepare($login);
+
+        $rc = $stmt->bind_param('sssss', $customer_id, $customer_name, $customer_email, $customer_mobile, $customer_major);
+        $rc = $loginstmt->bind_param('sssss', $login_id, $login_username, $login_password, $login_rank, $customer_id);
+
+        $stmt->execute();
+        $loginstmt->execute();
+
+        if ($stmt && $loginstmt) {
+            $success = "$customer_name Account Created";
+        } else {
+            $info = "Please Try Again Or Try Later";
+        }
     }
 }
 require_once('../partials/head.php');
@@ -109,6 +129,12 @@ require_once('../partials/head.php');
                                                 </label>
                                                 <input class="form-control" required type="password" name="login_password" id="split-confirm-password" />
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="split-email">
+                                                Customer Major
+                                            </label>
+                                            <textarea rows="4" class="form-control" required name="customer_major"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary btn-block mt-3" type="submit" name="register">Register</button>
