@@ -23,10 +23,31 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 session_start();
 require_once('../config/config.php');
-/* Reset Passsword */
+if (isset($_POST['Reset_Password'])) {
+    $login_username = $_POST['login_username'];
+    $query = mysqli_query($mysqli, "SELECT * from `login` WHERE Login_username = '" . $login_username . "' ");
+    $num_rows = mysqli_num_rows($query);
 
+    if ($num_rows > 0) {
+        $n = date('y'); //Load Mumble Jumble
+        $new_password = bin2hex(random_bytes($n));
+        $query = "UPDATE login SET  login_password=? WHERE  login_username =? ";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ss', $new_password, $login_username);
+        $stmt->execute();
+        if ($stmt) {
+            $_SESSION['login_username'] = $login_username;
+            $success = "Password Reset" && header("refresh:1; url=confirm_password");
+        } else {
+            $err = "Password reset failed";
+        }
+    } else {
+        $err = "User Account Does Not Exist";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -59,7 +80,7 @@ require_once('../partials/head.php');
                                             <input class="form-control" required name="login_username" type="text" id="split-email" />
                                         </div>
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-block mt-3" type="submit" name="reset_password">Reset Password</button>
+                                            <button class="btn btn-primary btn-block mt-3" type="submit" name="Reset_Password">Reset Password</button>
                                         </div>
                                     </form>
                                     <a class="fs--1 text-600" href="../">Remebered Password<span class="d-inline-block ml-1">&rarr;</span></a>

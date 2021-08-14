@@ -26,7 +26,29 @@
 session_start();
 require_once('../config/config.php');
 /* Confirm Passsword */
+if (isset($_POST['Confirm_Password'])) {
 
+    $login_username  = $_SESSION['login_username'];
+    $new_password = sha1(md5($_POST['new_password']));
+    $confirm_password = sha1(md5($_POST['confirm_password']));
+    /* Check If Passwords Match */
+    if ($new_password != $confirm_password) {
+        /* Die */
+        $err = "Passwords Does Not Match";
+    } else {
+        /* Update Password */
+        $query = "UPDATE login  SET  login_password =? WHERE  login_username = ? ";
+        $stmt = $mysqli->prepare($query);
+        //bind paramaters
+        $rc = $stmt->bind_param('ss',  $confirm_password, $login_username);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Password Reset" && header("refresh:1; url=../");
+        } else {
+            $err = "Password Reset Failed";
+        }
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -62,7 +84,7 @@ require_once('../partials/head.php');
                                             <label for="split-email">
                                                 Confirm New Password
                                             </label>
-                                            <input class="form-control" required name="confirm_password" type="password" id="split-email" />
+                                            <input class="form-control" required name="Confirm_Password" type="password" id="split-email" />
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary btn-block mt-3" type="submit" name="reset_password">Reset Password</button>
