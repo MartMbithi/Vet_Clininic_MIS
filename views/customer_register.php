@@ -121,7 +121,7 @@ require_once('../partials/head.php');
                                                 <label for="split-password">
                                                     Login Username
                                                 </label>
-                                                <input class="form-control" required type="login_username" id="split-password" />
+                                                <input class="form-control" required name="login_username" type="text" id="split-password" />
                                             </div>
                                             <div class="form-group col-6">
                                                 <label for="split-confirm-password">
