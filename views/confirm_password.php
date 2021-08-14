@@ -25,7 +25,7 @@
  */
 session_start();
 require_once('../config/config.php');
-/* Reset Passsword */
+/* Confirm Passsword */
 
 require_once('../partials/head.php');
 ?>
@@ -49,20 +49,25 @@ require_once('../partials/head.php');
                                 <div class="card-header bg-circle-shape text-center p-2"><a class="text-white text-sans-serif font-weight-extra-bold fs-4 z-index-1 position-relative" href="../">Pet Health Management System</a></div>
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h3>Reset Password</h3>
+                                        <h3>Confirm Password</h3>
                                     </div>
                                     <form method="POST">
                                         <div class="form-group">
                                             <label for="split-email">
-                                                Login Username
+                                                New Password
                                             </label>
-                                            <input class="form-control" required name="login_username" type="text" id="split-email" />
+                                            <input class="form-control" required name="new_password" type="password" id="split-email" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="split-email">
+                                                Confirm New Password
+                                            </label>
+                                            <input class="form-control" required name="confirm_password" type="password" id="split-email" />
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary btn-block mt-3" type="submit" name="reset_password">Reset Password</button>
                                         </div>
                                     </form>
-                                    <a class="fs--1 text-600" href="../">Remebered Password<span class="d-inline-block ml-1">&rarr;</span></a>
                                 </div>
                             </div>
                         </div>
