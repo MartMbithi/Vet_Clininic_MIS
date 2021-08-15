@@ -50,7 +50,7 @@
                             <span class="nav-link-icon">
                                 <span class="fas fa-viruses"></span>
                             </span>
-                            <span class="nav-link-text">Ailments Knowledge Base</span>
+                            <span class="nav-link-text">Knowledge Base</span>
                         </div>
                     </a>
                     <ul class="nav collapse" id="pages" data-parent="#navbarVerticalCollapse">
