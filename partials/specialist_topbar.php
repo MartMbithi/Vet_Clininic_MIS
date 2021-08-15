@@ -6,7 +6,7 @@
         }
     </script>
     <div class="d-flex align-items-center">
-        <a class="navbar-brand" href="admin_dashboard">
+        <a class="navbar-brand" href="specialist_dashboard">
             <div class="d-flex align-items-center py-3"><img class="mr-2" src="../public/uploads/system_data/pet.svg" alt="" width="40" /><span class="text-sans-serif">Pet MIS</span></div>
         </a>
     </div>
