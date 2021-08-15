@@ -111,7 +111,7 @@ if (isset($_POST['update_login'])) {
     $loginstmt->execute();
 
     if ($loginstmt) {
-        $success = "$login_username Account Updated";
+        $success = "Specialist Account Login Credentials Updated";
     } else {
         $info = "Please Try Again Or Try Later";
     }
@@ -245,7 +245,7 @@ require_once('../partials/head.php');
                                             </td>
                                             <td><?php echo $user->specialist_major; ?></td>
                                             <td>
-                                                <a class="badge badge-warning" data-toggle="modal" href="#update-<?php echo $user->specialist_id; ?>">Update Profile</a>
+                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $user->specialist_id; ?>">Update Profile</a>
                                                 <!-- Update Modal -->
                                                 <div class="modal fade" id="update-<?php echo $user->specialist_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
@@ -295,9 +295,63 @@ require_once('../partials/head.php');
                                                 <!-- End Modal -->
                                                 <a class="badge badge-warning" data-toggle="modal" href="#login-<?php echo $user->specialist_id; ?>">Update Login</a>
                                                 <!-- Update Login -->
+                                                <div class="modal fade" id="login-<?php echo $user->specialist_id; ?>">
+                                                    <div class="modal-dialog  modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Fill All Fields </h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- Add Module Form -->
+                                                                <form method="post" enctype="multipart/form-data" role="form">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="">Login Username</label>
+                                                                                <input type="text" value="<?php echo $user->login_username; ?>" required name="login_username" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $user->login_specialist_id; ?>" required name="login_specialist_id" class="form-control">
+
+                                                                            </div>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="">Login Password</label>
+                                                                                <input type="password" required name="login_password" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right">
+                                                                        <button type="submit" name="update_login" class="btn btn-primary">Update Specialist</button>
+                                                                    </div>
+                                                                </form>
+                                                                <!-- End Module Form -->
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <!-- End Modal -->
                                                 <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $user->specialist_id; ?>">Delete Account</a>
                                                 <!-- Delete Modal -->
+                                                <div class="modal fade" id="delete-<?php echo $user->specialist_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">CONFIRM DELETE</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body text-center text-danger">
+                                                                <h4>Delete  <?php echo $user->specialist_name; ?> Account?</h4>
+                                                                <br>
+                                                                <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
+                                                                <a href="admin_specialists?delete=<?php echo $user->specialist_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <!-- End Modal -->
                                             </td>
                                         </tr>
