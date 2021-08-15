@@ -26,7 +26,7 @@
 session_start();
 require_once('../config/checklogin.php');
 require_once('../config/config.php');
-admin();
+specialist();
 
 /* Update Profile */
 if (isset($_POST['update_profile'])) {
@@ -36,7 +36,7 @@ if (isset($_POST['update_profile'])) {
     $specialist_mobile  = $_POST['specialist_mobile'];
     $specialist_major  = $_POST['specialist_major'];
     /* Shitty Approach */
-    $update_pwd = mysqli_query($mysqli, "UPDATE  specialist SET specialist_name = '$specialist_name', specialist_email = '$specialist_email', specialist_mobile = '$specialist_mobile'
+    $update_pwd = mysqli_query($mysqli, "UPDATE  specialist SET specialist_name = '$specialist_name', specialist_email = '$specialist_email', specialist_mobile = '$specialist_mobile',
     specialist_major = '$specialist_major'  WHERE specialist_id = '$login_specialist_id'");
     $success = 'Profile Details  Updated';
 }
@@ -134,12 +134,9 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group"><label for="phone">Profession / Major</label>
-                                                        <textarea name="specialist_major" rows="5" required class="form-control" id="phone" type="text">
-                                                   <?php echo $user->specialist_major; ?>
-                                                    </textarea>
+                                                        <textarea name="specialist_major" rows="5" required class="form-control" type="text"><?php echo $user->specialist_major; ?></textarea>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" name="update_profile" type="submit">Update </button></div>
                                             </div>
                                         </form>
