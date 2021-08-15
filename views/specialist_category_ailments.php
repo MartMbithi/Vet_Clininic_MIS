@@ -151,7 +151,6 @@ require_once('../partials/head.php');
                                         <th>Ailment Name</th>
                                         <th>Ailment Description</th>
                                         <th>Ailment Symptoms</th>
-                                        <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
