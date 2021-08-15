@@ -38,7 +38,7 @@ if (isset($_POST['add_visit'])) {
     $visit_specialist_id = $_POST['visit_specialist_id'];
     $visit_report = $_POST['visit_report'];
 
-    $query = "INSERT INTO clinic_visit (visit_id, visit_date, visit_customer_pet_id, visit_ailment, visit_specialist_id, visit_report) VALUES(?,?,?,?,?)";
+    $query = "INSERT INTO clinic_visit (visit_id, visit_date, visit_customer_pet_id, visit_ailment, visit_specialist_id, visit_report) VALUES(?,?,?,?,?,?)";
 
     $stmt = $mysqli->prepare($query);
     $rc = $stmt->bind_param('ssssss', $visit_id, $visit_date, $visit_customer_pet_id, $visit_ailment, $visit_specialist_id, $visit_report);
@@ -53,16 +53,15 @@ if (isset($_POST['add_visit'])) {
 
 
 /* Update Clinic Visit */
-if (isset($_POST['update_clinic_visit'])) {
+if (isset($_POST['update_visit'])) {
     $visit_id = $_POST['visit_id'];
     $visit_date = $_POST['visit_date'];
-    $visit_ailment = $_POST['visit_ailment'];
     $visit_report = $_POST['visit_report'];
 
 
-    $query = "UPDATE clinic_visit  SET visit_date =?, visit_ailment =?, visit_report=? WHERE visit_id = ?";
+    $query = "UPDATE clinic_visit  SET visit_date =?,  visit_report=? WHERE visit_id = ?";
     $stmt = $mysqli->prepare($query);
-    $rc = $stmt->bind_param('ssss', $visit_date, $visit_ailment, $visit_report, $visit_id);
+    $rc = $stmt->bind_param('sss', $visit_date, $visit_report, $visit_id);
     $stmt->execute();
 
     if ($stmt) {
@@ -139,7 +138,7 @@ require_once('../partials/head.php');
                                                 <select type="text" required name="visit_customer_pet_id" class="form-control">
                                                     <?php
                                                     $ret = "SELECT * FROM customer_pets cp 
-                                                    INNER JOIN customers c ON c.customer_id = cp.customer_pet_customer_id
+                                                    INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
                                                     INNER JOIN pets p ON p.pet_id =cp.customer_pet_pet_id ";
                                                     $stmt = $mysqli->prepare($ret);
                                                     $stmt->execute(); //ok
@@ -161,14 +160,14 @@ require_once('../partials/head.php');
                                                     $res = $stmt->get_result();
                                                     while ($ailment = $res->fetch_object()) {
                                                     ?>
-                                                        <option><?php echo $ailment->ailment_name; ?></option>
+                                                        <option value="<?php echo $ailment->ailment_name; ?>"><?php echo $ailment->ailment_name; ?></option>
                                                     <?php
                                                     } ?>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Clinic Specialist</label>
-                                                <select type="text" required name="visit_ailment" class="form-control">
+                                                <select type="text" required name="visit_specialist_id" class="form-control">
                                                     <?php
                                                     $ret = "SELECT * FROM specialist";
                                                     $stmt = $mysqli->prepare($ret);
@@ -211,11 +210,11 @@ require_once('../partials/head.php');
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Pet Details</th>
-                                        <th>Customer Details</th>
+                                        <th>Pet </th>
+                                        <th>Customer </th>
+                                        <th>Specialist </th>
                                         <th>Ailment</th>
                                         <th>Visit Date</th>
-                                        <th>Specialist Details</th>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
@@ -244,9 +243,34 @@ require_once('../partials/head.php');
                                                 Email: <?php echo $visit->customer_email; ?><br>
                                                 Mobile:<?php echo $visit->customer_mobile; ?> <br>
                                             </th>
+                                            <th>
+                                                Name: <?php echo $visit->specialist_name; ?><br>
+                                                Email: <?php echo $visit->specialist_email; ?><br>
+                                                Mobile:<?php echo $visit->specialist_mobile; ?> <br>
+                                            </th>
                                             <td><?php echo $visit->visit_ailment; ?></td>
                                             <td><?php echo date('d M Y', strtotime($visit->visit_date)); ?></td>
                                             <td>
+                                                <a class="badge badge-success" data-toggle="modal" href="#u-<?php echo $visit->visit_id; ?>">View Report</a>
+                                                <!-- Update Modal -->
+                                                <div class="modal fade" id="u-<?php echo $visit->visit_id; ?>">
+                                                    <div class="modal-dialog  modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Visit Report </h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>
+                                                                    <?php echo $visit->visit_report; ?>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Modal -->
                                                 <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $visit->visit_id; ?>">Update</a>
                                                 <!-- Update Modal -->
                                                 <div class="modal fade" id="update-<?php echo $visit->visit_id; ?>">
@@ -260,7 +284,24 @@ require_once('../partials/head.php');
                                                             </div>
                                                             <div class="modal-body">
                                                                 <!-- Add Module Form -->
-
+                                                                <form method="post" enctype="multipart/form-data" role="form">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Visit Date</label>
+                                                                                <input type="date" value="<?php echo $visit->visit_date; ?>" required name="visit_date" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $visit->visit_id; ?>" required name="visit_id" class="form-control">
+                                                                            </div>
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Visit Report</label>
+                                                                                <textarea type="text" required name="visit_report" rows="5" class="form-control"><?php echo $visit->visit_report; ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right">
+                                                                        <button type="submit" name="update_visit" class="btn btn-primary">Update Ailment</button>
+                                                                    </div>
+                                                                </form>
                                                                 <!-- End Module Form -->
                                                             </div>
 
@@ -269,7 +310,7 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <!-- End Modal -->
 
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $visit->visit_id; ?>">Delete Category</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $visit->visit_id; ?>">Delete</a>
                                                 <!-- Delete Modal -->
                                                 <div class="modal fade" id="delete-<?php echo $visit->visit_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
