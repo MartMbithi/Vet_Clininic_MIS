@@ -71,7 +71,7 @@ require_once('../partials/head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">
                                 <?php echo $pet_ailments; ?>
                             </div>
-                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="customer_pet_ailments">See All
+                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="customer_ailment">See All
                                 <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>

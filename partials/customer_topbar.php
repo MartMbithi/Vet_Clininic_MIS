@@ -69,20 +69,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link dropdown-indicator" href="#page" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="pages">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon">
-                                <span class="fas fa-copy"></span>
-                            </span>
-                            <span class="nav-link-text">My Reports</span>
-                        </div>
-                    </a>
-                    <ul class="nav collapse" id="page" data-parent="#navbarVerticalCollapse">
-                        <li class="nav-item"><a class="nav-link" href="customer_reports_customer_pets">Customer Pets </a></li>
-                        <li class="nav-item"><a class="nav-link" href="customer_reports_clinic_vists">Clinic Visits</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="customer_logout">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">

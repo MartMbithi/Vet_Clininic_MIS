@@ -29,7 +29,7 @@ require_once('../config/config.php');
 customer();
 
 /* Update Profile */
-if (isset($_POST['update_customer'])) {
+if (isset($_POST['update_profile'])) {
     /* Customer Attributes */
     $customer_id = $_SESSION['login_customer_id'];
     $customer_name = $_POST['customer_name'];
@@ -142,7 +142,7 @@ require_once('../partials/head.php');
                                                     <div class="form-group"><label for="phone">Phone</label><input name="customer_mobile" required value="<?php echo $user->customer_mobile; ?>" class="form-control" id="phone" type="text" value="+44098098304"></div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="phone">Profession</label><input name="customer_major" required value="<?php echo $user->customer_major; ?>" class="form-control" id="phone" type="text" value="+44098098304"></div>
+                                                    <div class="form-group"><label for="phone">Profession</label><textarea name="customer_major" required class="form-control" id="phone" rows="5" type="text"><?php echo $user->customer_major; ?></textarea></div>
                                                 </div>
 
                                                 <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" name="update_profile" type="submit">Update </button></div>
