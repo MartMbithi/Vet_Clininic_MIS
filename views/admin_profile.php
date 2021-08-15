@@ -26,7 +26,6 @@
 session_start();
 require_once('../config/checklogin.php');
 require_once('../config/config.php');
-require_once('../partials/admin_analytics.php');
 admin();
 
 /* Update Profile */
@@ -36,7 +35,7 @@ if (isset($_POST['update_profile'])) {
     $admin_email = $_POST['admin_email'];
     $admin_mobile = $_POST['admin_mobile'];
     /* Shitty Approach */
-    $update_pwd = mysqli_query($mysqli, "UPDATE  admin SET admin_name = '$admin_name', admin_email = '$admin_email' admin_mobile = '$admin_mobile'
+    $update_pwd = mysqli_query($mysqli, "UPDATE  admin SET admin_name = '$admin_name', admin_email = '$admin_email', admin_mobile = '$admin_mobile'
      WHERE admin_id = '$login_admin_id'");
     $success = 'Profile Details  Updated';
 }
@@ -51,7 +50,7 @@ if (isset($_POST['update_login_details'])) {
 
     /* Check If Old Passwords Match */
     if ($new_password == $confirm_password) {
-        $update_pwd = mysqli_query($mysqli, "UPDATE  login SET login_password='$new_password' WHERE login_admin_id = '$login_admin_id'");
+        $update_pwd = mysqli_query($mysqli, "UPDATE  login SET login_password='$new_password', login_username = '$login_username' WHERE login_admin_id = '$login_admin_id'");
         $success = 'Login Details  Updated';
     } else {
         $err = 'Password Does Not Match';
@@ -147,7 +146,7 @@ require_once('../partials/head.php');
                                         <form method="POST">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="first-name">Login Username</label><input required name="admin_name" value="<?php echo $user->login_username; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
+                                                    <div class="form-group"><label for="first-name">Login Username</label><input required name="login_username" value="<?php echo $user->login_username; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
                                                 </div>
 
                                                 <div class="col-lg-12">
