@@ -26,6 +26,7 @@
 session_start();
 require_once('../config/checklogin.php');
 require_once('../config/config.php');
+require_once('./partials/admin_analytics.php');
 admin();
 require_once('../partials/head.php');
 ?>
@@ -50,12 +51,12 @@ require_once('../partials/head.php');
 
                 <div class="card-deck">
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
-                        <div class="bg-holder bg-card" style="background-image:url(assets/img/illustrations/corner-1.png);"></div>
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-1.png);"></div>
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
                             <h6>Customers</h6>
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">
-                                58.39k
+                                <?php echo $customers; ?>
                             </div>
                             <a class="font-weight-semi-bold fs--1 text-nowrap" href="admin_customers">See all
                                 <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
@@ -63,19 +64,28 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
-                        <div class="bg-holder bg-card" style="background-image:url(assets/img/illustrations/corner-2.png);"></div>
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-2.png);"></div>
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
-                            <h6>Specialists<span class="badge badge-soft-info rounded-capsule ml-2">0.0%</span></h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">73.46k</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">All orders<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <h6>Specialists</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">
+                                <?php echo $specialists; ?>
+                            </div>
+                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">See All
+                                <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
                     <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
-                        <div class="bg-holder bg-card" style="background-image:url(assets/img/illustrations/corner-3.png);"></div>
+                        <div class="bg-holder bg-card" style="background-image:url(../public/img/illustrations/corner-3.png);"></div>
                         <!--/.bg-holder-->
                         <div class="card-body position-relative">
-                            <h6>Pets<span class="badge badge-soft-success rounded-capsule ml-2">9.54%</span></h6>
-                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                            <h6>Pets</h6>
+                            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif">
+                                <?php echo $pets; ?>
+                            </div>
+                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">See All
+                                <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -87,41 +97,32 @@ require_once('../partials/head.php');
                             </div>
                         </div>
                     </div>
-                    <div class="card-body px-0 pt-0">
-                        <div class="dashboard-data-table">
-                            <table class="table table-sm table-dashboard fs--1  border-bottom">
-                                <thead class="bg-200 text-900">
+                    <div class="card-body px-4 pt-0">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th class="sort pr-1 align-middle">Customer</th>
-                                        <th class="sort pr-1 align-middle">Email</th>
-                                        <th class="sort pr-1 align-middle">Product</th>
-                                        <th class="sort pr-1 align-middle text-center">Payment</th>
-                                        <th class="sort pr-1 align-middle text-right">Amount</th>
-                                        <th class="no-sort pr-1 align-middle data-table-row-action"></th>
+                                        <th>Pet Details</th>
+                                        <th>Ailment</th>
+                                        <th>Specialist</th>
+                                        <th>Visit Date</th>
+                                        <th>Manage</th>
                                     </tr>
                                 </thead>
-                                <tbody id="purchases">
-                                    <tr class="btn-reveal-trigger">
-
-                                        <th class="align-middle"><a href="pages/customer-details.html">Sylvia Plath</a></th>
-                                        <td class="align-middle">john@gmail.com</td>
-                                        <td class="align-middle">Slick - Drag &amp; Drop Bootstrap Generator</td>
-                                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
-                                        <td class="align-middle text-right">$99</td>
-                                        <td class="align-middle white-space-nowrap">
-                                            <div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown0" data-toggle="dropdown" data-boundary="html" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown0">
-                                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
-                                                        <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Steven</td>
+                                        <td>Speilberg</td>
+                                        <td>@mdo</td>
+                                        <td>@mdo</td>
                                     </tr>
 
                                 </tbody>
                             </table>
                         </div>
+
+
                     </div>
                 </div>
 
