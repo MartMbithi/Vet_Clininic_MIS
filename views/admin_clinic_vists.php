@@ -107,11 +107,11 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/top_nav.php'); ?>
-                <h2 class="text-center">Pets Ailments</h2>
+                <h2 class="text-center">Clinic Visits</h2>
                 <hr>
                 <div class="text-right">
                     <a href="#add_modal" class="btn btn-primary" data-toggle="modal">
-                        Add Ailment
+                        Add Clinic Visit
                     </a>
                 </div>
                 <br>
@@ -130,24 +130,66 @@ require_once('../partials/head.php');
                                 <form method="post" enctype="multipart/form-data" role="form">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="form-group col-md-12">
-                                                <label for="">Ailment Name</label>
-                                                <input type="text" required name="ailment_name" class="form-control">
+                                            <div class="form-group col-md-6">
+                                                <label for="">Visit Date</label>
+                                                <input type="date" required name="visit_date" class="form-control">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Pet Name</label>
+                                                <select type="text" required name="visit_customer_pet_id" class="form-control">
+                                                    <?php
+                                                    $ret = "SELECT * FROM customer_pets cp 
+                                                    INNER JOIN customers c ON c.customer_id = cp.customer_pet_customer_id
+                                                    INNER JOIN pets p ON p.pet_id =cp.customer_pet_pet_id ";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute(); //ok
+                                                    $res = $stmt->get_result();
+                                                    while ($pets = $res->fetch_object()) {
+                                                    ?>
+                                                        <option value="<?php echo $pets->customer_pet_id; ?>"><?php echo $pets->pet_name; ?></option>
+                                                    <?php
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Visit Ailment</label>
+                                                <select type="text" required name="visit_ailment" class="form-control">
+                                                    <?php
+                                                    $ret = "SELECT * FROM ailment";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute(); //ok
+                                                    $res = $stmt->get_result();
+                                                    while ($ailment = $res->fetch_object()) {
+                                                    ?>
+                                                        <option><?php echo $ailment->ailment_name; ?></option>
+                                                    <?php
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="">Clinic Specialist</label>
+                                                <select type="text" required name="visit_ailment" class="form-control">
+                                                    <?php
+                                                    $ret = "SELECT * FROM specialist";
+                                                    $stmt = $mysqli->prepare($ret);
+                                                    $stmt->execute(); //ok
+                                                    $res = $stmt->get_result();
+                                                    while ($user = $res->fetch_object()) {
+                                                    ?>
+                                                        <option value="<?php echo $user->specialist_id; ?>"><?php echo $user->specialist_name; ?></option>
+                                                    <?php
+                                                    } ?>
+                                                </select>
                                             </div>
 
                                             <div class="form-group col-md-12">
-                                                <label for="">Ailment Description</label>
-                                                <textarea type="text" required name="ailment_desc" rows="5" class="form-control"></textarea>
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-                                                <label for="">Ailment Symptoms</label>
-                                                <textarea type="text" required name="ailment_signs" rows="5" class="form-control"></textarea>
+                                                <label for="">Visit Report</label>
+                                                <textarea type="text" required name="visit_report" rows="5" class="form-control"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="submit" name="add_ailment" class="btn btn-primary">Add Ailment</button>
+                                        <button type="submit" name="add_visit" class="btn btn-primary">Add Ailment</button>
                                     </div>
                                 </form>
                                 <!-- End Module Form -->
@@ -169,28 +211,45 @@ require_once('../partials/head.php');
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Ailment Name</th>
-                                        <th>Ailment Details</th>
-                                        <th>Ailment Signs And Symptoms</th>
+                                        <th>Pet Details</th>
+                                        <th>Customer Details</th>
+                                        <th>Ailment</th>
+                                        <th>Visit Date</th>
+                                        <th>Specialist Details</th>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM ailment";
+                                    $ret = "SELECT * FROM clinic_visit cv 
+                                    INNER JOIN customer_pets cp ON cp.customer_pet_id = cv.visit_customer_pet_id
+                                    INNER JOIN pets p ON p.pet_id = cp.customer_pet_pet_id
+                                    INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
+                                    INNER JOIN pets_categories pc ON pc.category_id = p.pet_category_id
+                                    INNER JOIN specialist s ON s.specialist_id = cv.visit_specialist_id ";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
-                                    while ($ailment = $res->fetch_object()) {
+                                    while ($visit = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <th><?php echo $ailment->ailment_name; ?></th>
-                                            <td><?php echo $ailment->ailment_desc; ?></td>
-                                            <td><?php echo $ailment->ailment_signs; ?></td>
+                                            <th>
+                                                Name: <?php echo $visit->pet_name; ?><br>
+                                                Age: <?php echo $visit->pet_age; ?><br>
+                                                Sex:<?php echo $visit->pet_sex; ?> <br>
+                                                Category: <?php echo $visit->category_name; ?>
+                                            </th>
+                                            <th>
+                                                Name: <?php echo $visit->customer_name; ?><br>
+                                                Email: <?php echo $visit->customer_email; ?><br>
+                                                Mobile:<?php echo $visit->customer_mobile; ?> <br>
+                                            </th>
+                                            <td><?php echo $visit->visit_ailment; ?></td>
+                                            <td><?php echo date('d M Y', strtotime($visit->visit_date)); ?></td>
                                             <td>
-                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $ailment->ailment_id; ?>">Update</a>
+                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $visit->visit_id; ?>">Update</a>
                                                 <!-- Update Modal -->
-                                                <div class="modal fade" id="update-<?php echo $ailment->ailment_id; ?>">
+                                                <div class="modal fade" id="update-<?php echo $visit->visit_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -201,31 +260,7 @@ require_once('../partials/head.php');
                                                             </div>
                                                             <div class="modal-body">
                                                                 <!-- Add Module Form -->
-                                                                <form method="post" enctype="multipart/form-data" role="form">
-                                                                    <div class="card-body">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-12">
-                                                                                <label for="">Ailment Name</label>
-                                                                                <input type="text" value="<?php echo $ailment->ailment_name; ?>" required name="ailment_name" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $ailment->ailment_id; ?>" required name="ailment_id" class="form-control">
 
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-12">
-                                                                                <label for="">Ailment Description</label>
-                                                                                <textarea type="text" required name="ailment_desc" rows="5" class="form-control"><?php echo $ailment->ailment_desc; ?></textarea>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-12">
-                                                                                <label for="">Ailment Symptoms</label>
-                                                                                <textarea type="text" required name="ailment_signs" rows="5" class="form-control"><?php echo $ailment->ailment_signs; ?></textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="text-right">
-                                                                        <button type="submit" name="update_ailment" class="btn btn-primary">Update Ailment</button>
-                                                                    </div>
-                                                                </form>
                                                                 <!-- End Module Form -->
                                                             </div>
 
@@ -234,9 +269,9 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <!-- End Modal -->
 
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $ailment->ailment_id; ?>">Delete Category</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $visit->visit_id; ?>">Delete Category</a>
                                                 <!-- Delete Modal -->
-                                                <div class="modal fade" id="delete-<?php echo $ailment->ailment_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="delete-<?php echo $visit->visit_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -246,10 +281,10 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body text-center text-danger">
-                                                                <h4>Delete <?php echo $ailment->ailment_name; ?></h4>
+                                                                <h4>Delete Clinic Visit Record</h4>
                                                                 <br>
                                                                 <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                <a href="admin_ailment?delete=<?php echo $ailment->ailment_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                <a href="admin_clinic_vists?delete=<?php echo $visit->visit_id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </div>
