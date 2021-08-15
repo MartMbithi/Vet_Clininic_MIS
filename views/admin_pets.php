@@ -143,18 +143,18 @@ require_once('../partials/head.php');
                                                 <label for="">Pet Name</label>
                                                 <input type="text" required name="pet_name" class="form-control">
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6">
                                                 <label for="">Pet Age</label>
-                                                <input type="text" required name="pet_name" class="form-control">
+                                                <input type="text" required name="pet_age" class="form-control">
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6">
                                                 <label for="">Pet Sex</label>
                                                 <select type="text" required name="pet_sex" class="form-control">
                                                     <option>Male</option>
                                                     <option>Female</option>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-6">
                                                 <label for="">Pet Category</label>
                                                 <select type="text" required name="pet_category_id" class="form-control">
                                                     <?php
@@ -169,7 +169,7 @@ require_once('../partials/head.php');
                                                     } ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-12">
                                                 <label for="">Pet Owner Name</label>
                                                 <select type="text" required name="customer_pet_customer_id" class="form-control">
                                                     <?php
@@ -179,7 +179,7 @@ require_once('../partials/head.php');
                                                     $res = $stmt->get_result();
                                                     while ($user = $res->fetch_object()) {
                                                     ?>
-                                                        <option value="<?php echo $user->customer_id; ?>"><?php echo $customer->customer_name; ?></option>
+                                                        <option value="<?php echo $user->customer_id; ?>"><?php echo $user->customer_name; ?></option>
                                                     <?php
                                                     } ?>
                                                 </select>
@@ -188,7 +188,7 @@ require_once('../partials/head.php');
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="submit" name="add_pet" class="btn btn-primary">Add Category</button>
+                                        <button type="submit" name="add_pet" class="btn btn-primary">Add Pet</button>
                                     </div>
                                 </form>
                                 <!-- End Module Form -->
