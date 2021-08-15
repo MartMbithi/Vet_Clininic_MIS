@@ -98,29 +98,77 @@ require_once('../partials/head.php');
                         </div>
                     </div>
                     <div class="card-body px-4 pt-0">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Pet </th>
+                                    <th>Customer </th>
+                                    <th>Specialist </th>
+                                    <th>Ailment</th>
+                                    <th>Visit Date</th>
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $ret = "SELECT * FROM clinic_visit cv 
+                                    INNER JOIN customer_pets cp ON cp.customer_pet_id = cv.visit_customer_pet_id
+                                    INNER JOIN pets p ON p.pet_id = cp.customer_pet_pet_id
+                                    INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
+                                    INNER JOIN pets_categories pc ON pc.category_id = p.pet_category_id
+                                    INNER JOIN specialist s ON s.specialist_id = cv.visit_specialist_id ";
+                                $stmt = $mysqli->prepare($ret);
+                                $stmt->execute(); //ok
+                                $res = $stmt->get_result();
+                                while ($visit = $res->fetch_object()) {
+                                ?>
                                     <tr>
-                                        <th>Pet Details</th>
-                                        <th>Ailment</th>
-                                        <th>Specialist</th>
-                                        <th>Visit Date</th>
-                                        <th>Manage</th>
+                                        <th>
+                                            Name: <?php echo $visit->pet_name; ?><br>
+                                            Age: <?php echo $visit->pet_age; ?><br>
+                                            Sex:<?php echo $visit->pet_sex; ?> <br>
+                                            Category: <?php echo $visit->category_name; ?>
+                                        </th>
+                                        <th>
+                                            Name: <?php echo $visit->customer_name; ?><br>
+                                            Email: <?php echo $visit->customer_email; ?><br>
+                                            Mobile:<?php echo $visit->customer_mobile; ?> <br>
+                                        </th>
+                                        <th>
+                                            Name: <?php echo $visit->specialist_name; ?><br>
+                                            Email: <?php echo $visit->specialist_email; ?><br>
+                                            Mobile:<?php echo $visit->specialist_mobile; ?> <br>
+                                        </th>
+                                        <td><?php echo $visit->visit_ailment; ?></td>
+                                        <td><?php echo date('d M Y', strtotime($visit->visit_date)); ?></td>
+                                        <td>
+                                            <a class="badge badge-success" data-toggle="modal" href="#u-<?php echo $visit->visit_id; ?>">View Report</a>
+                                            <!-- Update Modal -->
+                                            <div class="modal fade" id="u-<?php echo $visit->visit_id; ?>">
+                                                <div class="modal-dialog  modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Visit Report </h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                <?php echo $visit->visit_report; ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Steven</td>
-                                        <td>Speilberg</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
+                                <?php
+                                }
+                                ?>
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
 
 
                     </div>
