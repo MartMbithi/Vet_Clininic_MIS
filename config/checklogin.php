@@ -1,9 +1,13 @@
 <?php
 /*
- * Created on Mon Aug 09 2021
+ * Created on Sun Aug 15 2021
+ *
+ *  https://martdev.info
+ * martdevelopers254@gmail.com
+ * +254 740 847 563 / +254 737 229 776 
  *
  * The MIT License (MIT)
- * Copyright (c) 2021 Devlan Inc
+ * Copyright (c) 2021 MartDevelopers Inc
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -26,13 +30,41 @@
 	* Pass Session Variables 
 */
 
-function checklogin()
+function admin()
 {
-	if ((strlen($_SESSION['id']) == 0)) {
+	/* Admin Check Login */
+	if ((strlen($_SESSION['login_rank']) == 0) && strlen($_SESSION['login_admin_id']) == 0) {
 		$host = $_SERVER['HTTP_HOST'];
 		$uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 		$extra = "../index";
-		$_SESSION["id"] = "";
+		$_SESSION["login_rak"] = "";
+		$_SESSION["login_admin_id"] = "";
+		header("Location: http://$host$uri/$extra");
+	}
+}
+
+function specialist()
+{
+	/* Specialist Check Login */
+	if ((strlen($_SESSION['login_rank']) == 0) && strlen($_SESSION['login_admin_id']) == 0) {
+		$host = $_SERVER['HTTP_HOST'];
+		$uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		$extra = "../index";
+		$_SESSION["login_rank"] = "";
+		$_SESSION["login_specialist_id"] = "";
+		header("Location: http://$host$uri/$extra");
+	}
+}
+
+function customer()
+{
+	/* Customer Check Login */
+	if ((strlen($_SESSION['login_rank']) == 0) && strlen($_SESSION['login_customer_id']) == 0) {
+		$host = $_SERVER['HTTP_HOST'];
+		$uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		$extra = "../index";
+		$_SESSION["login_customer_id"] = "";
+		$_SESSION["login_rank"] = "";
 		header("Location: http://$host$uri/$extra");
 	}
 }
