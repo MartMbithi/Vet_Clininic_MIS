@@ -132,7 +132,7 @@ require_once('../partials/head.php');
                                         </div>
                                         <div class="form-group">
                                             <label for="split-email">
-                                                Customer Major
+                                                Customer Profession
                                             </label>
                                             <textarea rows="4" class="form-control" required name="customer_major"></textarea>
                                         </div>
