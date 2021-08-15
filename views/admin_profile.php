@@ -28,6 +28,36 @@ require_once('../config/checklogin.php');
 require_once('../config/config.php');
 require_once('../partials/admin_analytics.php');
 admin();
+
+/* Update Profile */
+if (isset($_POST['update_profile'])) {
+    $login_admin_id = $_SESSION['login_admin_id'];
+    $admin_name = $_POST['admin_name'];
+    $admin_email = $_POST['admin_email'];
+    $admin_mobile = $_POST['admin_mobile'];
+    /* Shitty Approach */
+    $update_pwd = mysqli_query($mysqli, "UPDATE  admin SET admin_name = '$admin_name', admin_email = '$admin_email' admin_mobile = '$admin_mobile'
+     WHERE admin_id = '$login_admin_id'");
+    $success = 'Profile Details  Updated';
+}
+
+
+/* Update Login Details */
+if (isset($_POST['update_login_details'])) {
+    $login_admin_id = $_SESSION['login_admin_id'];
+    $new_password = sha1(md5($_POST['new_password']));
+    $confirm_password = sha1(md5($_POST['confirm_password']));
+    $login_username = $_POST['login_username'];
+
+    /* Check If Old Passwords Match */
+    if ($new_password == $confirm_password) {
+        $update_pwd = mysqli_query($mysqli, "UPDATE  login SET login_password='$new_password' WHERE login_admin_id = '$login_admin_id'");
+        $success = 'Login Details  Updated';
+    } else {
+        $err = 'Password Does Not Match';
+    }
+}
+
 require_once('../partials/head.php');
 ?>
 
@@ -66,7 +96,7 @@ require_once('../partials/head.php');
                                 </div>
                                 <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
                                     <div class="h-100 w-100 rounded-circle overflow-hidden position-relative">
-                                     <img src="../public/uploads/user_data/no-profile.png" width="200" alt="" data-dz-thumbnail>
+                                        <img src="../public/uploads/user_data/no-profile.png" width="200" alt="" data-dz-thumbnail>
                                     </div>
                                 </div>
                             </div>
@@ -92,14 +122,14 @@ require_once('../partials/head.php');
                                         <form method="post">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="first-name">Name</label><input name="admin_name" value="<?php echo $user->admin_name; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
+                                                    <div class="form-group"><label for="first-name">Name</label><input name="admin_name" required value="<?php echo $user->admin_name; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
                                                 </div>
 
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="email1">Email</label><input name="admin_email" value="<?php echo $user->admin_email; ?>" class="form-control" id="email1" type="text" value="anthony@gmail.com"></div>
+                                                    <div class="form-group"><label for="email1">Email</label><input name="admin_email" required value="<?php echo $user->admin_email; ?>" class="form-control" id="email1" type="text" value="anthony@gmail.com"></div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="phone">Phone</label><input name="admin_mobile" value="<?php echo $user->admin_mobile; ?>" class="form-control" id="phone" type="text" value="+44098098304"></div>
+                                                    <div class="form-group"><label for="phone">Phone</label><input name="admin_mobile" required value="<?php echo $user->admin_mobile; ?>" class="form-control" id="phone" type="text" value="+44098098304"></div>
                                                 </div>
 
                                                 <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" name="update_profile" type="submit">Update </button></div>
@@ -117,14 +147,14 @@ require_once('../partials/head.php');
                                         <form method="POST">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="first-name">Login Username</label><input name="admin_name" value="<?php echo $user->login_username; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
+                                                    <div class="form-group"><label for="first-name">Login Username</label><input required name="admin_name" value="<?php echo $user->login_username; ?>" class="form-control" id="first-name" type="text" value="Anthony"></div>
                                                 </div>
 
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="email1">New Password</label><input name="new_password" class="form-control" id="email1" type="password"></div>
+                                                    <div class="form-group"><label for="email1">New Password</label><input name="new_password" required class="form-control" id="email1" type="password"></div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <div class="form-group"><label for="phone">Confirm New Password</label><input name="confirm_password" class="form-control" id="phone" type="password"></div>
+                                                    <div class="form-group"><label for="phone">Confirm New Password</label><input required name="confirm_password" class="form-control" id="phone" type="password"></div>
                                                 </div>
 
                                                 <div class="col-12 d-flex justify-content-end"><button class="btn btn-primary" name="update_login_details" type="submit">Update </button></div>
