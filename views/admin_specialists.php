@@ -29,7 +29,7 @@ require_once('../config/codeGen.php');
 require_once('../config/config.php');
 admin();
 /* Add Specialist */
-if (isset($_POST['register'])) {
+if (isset($_POST['add_specialist'])) {
     /* Specialist Attributes */
     $specialist_id = $sys_gen_id;
     $specialist_name = $_POST['specialist_name'];
@@ -67,16 +67,70 @@ if (isset($_POST['register'])) {
         $loginstmt->execute();
 
         if ($stmt && $loginstmt) {
-            $success = "$specialist Account Created";
+            $success = "$specialist_name Account Created";
         } else {
             $info = "Please Try Again Or Try Later";
         }
     }
 }
+/* Update Specialist Profile */
+if (isset($_POST['update_specialist'])) {
+    /* Specialist Attributes */
+    $specialist_id = $_POST['specialist_id'];
+    $specialist_name = $_POST['specialist_name'];
+    $specialist_email  = $_POST['specialist_email'];
+    $specialist_mobile  = $_POST['specialist_mobile'];
+    $specialist_major  = $_POST['specialist_major'];
 
-/* Update Specialist */
+    $query = "UPDATE specialist SET specialist_name = ?, specialist_email =? , specialist_mobile =?, specialist_major =? WHERE specialist_id = ?";
+
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('sssss', $specialist_name, $specialist_email, $specialist_mobile, $specialist_major, $specialist_id);
+    $stmt->execute();
+
+    if ($stmt) {
+        $success = "$specialist_name Account Updated";
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
+
+/* Update Login Details */
+if (isset($_POST['add_specialist'])) {
+    /*  Login Attributes */
+    $login_specialist_id = $_POST['login_specialist_id'];
+    $login_username = $_POST['login_username'];
+    $login_password = sha1(md5($_POST['login_password']));
+
+    $login = "UPDATE login SET login_username =?, login_password =? WHERE login_specialist_id =?";
+
+    $loginstmt = $mysqli->prepare($login);
+
+    $rc = $loginstmt->bind_param('sss', $login_username, $login_password, $login_specialist_id);
+
+    $loginstmt->execute();
+
+    if ($loginstmt) {
+        $success = "$login_username Account Updated";
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
 
 /* Delete Specialist */
+if (isset($_GET['delete'])) {
+    $delete = $_GET['delete'];
+    $adn = "DELETE FROM  specialist WHERE specialist_id = ? ";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->bind_param('s', $delete);
+    $stmt->execute();
+    $stmt->close();
+    if ($stmt) {
+        $success = "Deleted" && header("refresh:1; url=admin_specialists");
+    } else {
+        $info = "Please Try Again Or Try Later";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
