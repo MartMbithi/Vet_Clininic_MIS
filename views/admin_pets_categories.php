@@ -176,7 +176,7 @@ require_once('../partials/head.php');
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM pet_categories";
+                                    $ret = "SELECT * FROM pets_categories";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
@@ -226,7 +226,7 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <!-- End Modal -->
 
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $category->category_id; ?>">Delete Account</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $category->category_id; ?>">Delete Category</a>
                                                 <!-- Delete Modal -->
                                                 <div class="modal fade" id="delete-<?php echo $category->category_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
