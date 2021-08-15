@@ -119,7 +119,7 @@ if (isset($_POST['update_login'])) {
 /* Delete  */
 if (isset($_GET['delete'])) {
     $delete = $_GET['delete'];
-    $adn = "DELETE FROM  customer WHERE customer = ? ";
+    $adn = "DELETE FROM  customer WHERE customer_id = ? ";
     $stmt = $mysqli->prepare($adn);
     $stmt->bind_param('s', $delete);
     $stmt->execute();
@@ -229,7 +229,7 @@ require_once('../partials/head.php');
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM customers c
+                                    $ret = "SELECT * FROM customer c
                                     INNER JOIN login l ON c.customer_id = l.login_customer_id";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
@@ -277,7 +277,7 @@ require_once('../partials/head.php');
 
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="">Profession / Major</label>
-                                                                                <textarea type="text" required name="customer_profession" rows="5" class="form-control"><?php echo $user->customer_profession; ?></textarea>
+                                                                                <textarea type="text" required name="customer_major" rows="5" class="form-control"><?php echo $user->customer_major; ?></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -343,7 +343,7 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body text-center text-danger">
-                                                                <h4>Delete <?php echo $user->customer; ?> Account?</h4>
+                                                                <h4>Delete <?php echo $user->customer_name; ?> Account?</h4>
                                                                 <br>
                                                                 <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
                                                                 <a href="admin_customers?delete=<?php echo $user->customer_id; ?>" class="text-center btn btn-danger"> Delete </a>
