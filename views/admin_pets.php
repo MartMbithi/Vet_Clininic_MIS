@@ -62,7 +62,7 @@ if (isset($_POST['add_pet'])) {
 
 
 /* Update Pet */
-if (isset($_POST['update_category'])) {
+if (isset($_POST['update_pet'])) {
     $pet_id = $_POST['pet_id'];
     $pet_name = $_POST['pet_name'];
     $pet_age  = $_POST['pet_age'];
@@ -70,7 +70,6 @@ if (isset($_POST['update_category'])) {
 
 
     $query = "UPDATE pets  SET pet_name =?, pet_age =?, pet_sex = ? WHERE pet_id = ?";
-
     $stmt = $mysqli->prepare($query);
     $rc = $stmt->bind_param('ssss', $pet_name, $pet_age, $pet_sex, $pet_id);
     $stmt->execute();
@@ -210,26 +209,38 @@ require_once('../partials/head.php');
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Details</th>
+                                        <th>Pet Details</th>
+                                        <th>Pet Owner Details</th>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM pets_categories";
+                                    $ret = "SELECT * FROM customer_pets cp 
+                                    INNER JOIN pets p ON p.pet_id = cp.customer_pet_pet_id
+                                    INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
+                                    INNER JOIN pets_categories pc ON  pc.category_id = p.pet_category_id";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
-                                    while ($category = $res->fetch_object()) {
+                                    while ($pet = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <th><?php echo $category->category_name; ?></th>
-                                            <td><?php echo $category->category_desc; ?></td>
+                                            <th>
+                                                Name: <?php echo $pet->pet_name; ?><br>
+                                                Age: <?php echo $pet->pet_age; ?><br>
+                                                Sex: <?php echo $pet->pet_sex; ?><br>
+                                                Category : <?php echo $pet->category_name; ?>
+                                            </th>
+                                            <th>
+                                                Name: <?php echo $pet->customer_name; ?><br>
+                                                Email: <?php echo $pet->customer_email; ?><br>
+                                                Mobile No: <?php echo $pet->customer_mobile; ?><br>
+                                            </th>
                                             <td>
-                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $category->category_id; ?>">Update</a>
+                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $pet->pet_id; ?>">Update</a>
                                                 <!-- Update Modal -->
-                                                <div class="modal fade" id="update-<?php echo $category->category_id; ?>">
+                                                <div class="modal fade" id="update-<?php echo $pet->pet_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -239,27 +250,32 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <!-- Add Module Form -->
                                                                 <form method="post" enctype="multipart/form-data" role="form">
                                                                     <div class="card-body">
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
-                                                                                <label for="">Category Name</label>
-                                                                                <input type="text" value="<?php echo $category->category_name; ?>" required name="category_name" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $category->category_id; ?>" required name="category_id" class="form-control">
+                                                                                <label for="">Pet Name</label>
+                                                                                <input type="text" value="<?php echo $pet->pet_name; ?>" required name="pet_name" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $pet->pet_id; ?>" required name="pet_id" class="form-control">
+                                                                            </div>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="">Pet Age</label>
+                                                                                <input type="text" value="<?php echo $pet->pet_age; ?>" required name="pet_age" class="form-control">
+                                                                            </div>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="">Pet Sex</label>
+                                                                                <select type="text" required name="pet_sex" class="form-control">
+                                                                                    <option>Male</option>
+                                                                                    <option>Female</option>
+                                                                                </select>
                                                                             </div>
 
-                                                                            <div class="form-group col-md-12">
-                                                                                <label for="">Category Details</label>
-                                                                                <textarea type="text" required name="category_desc" rows="5" class="form-control"><?php echo $category->category_desc; ?></textarea>
-                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-right">
-                                                                        <button type="submit" name="update_category" class="btn btn-primary">Update Category</button>
+                                                                        <button type="submit" name="update_pet" class="btn btn-primary">Update Pet</button>
                                                                     </div>
                                                                 </form>
-                                                                <!-- End Module Form -->
                                                             </div>
 
                                                         </div>
@@ -267,9 +283,9 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <!-- End Modal -->
 
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $category->category_id; ?>">Delete Category</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $pet->pet_id; ?>">Delete Pet</a>
                                                 <!-- Delete Modal -->
-                                                <div class="modal fade" id="delete-<?php echo $category->category_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="delete-<?php echo $pet->pet_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -279,10 +295,10 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body text-center text-danger">
-                                                                <h4>Delete <?php echo $category->category_name; ?></h4>
+                                                                <h4>Delete <?php echo $pet->pet_name; ?></h4>
                                                                 <br>
                                                                 <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                <a href="admin_pets_categories?delete=<?php echo $category->category_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                <a href="admin_pets?delete=<?php echo $pet->pet_id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </div>
