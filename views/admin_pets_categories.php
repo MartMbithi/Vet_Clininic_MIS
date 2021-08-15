@@ -112,11 +112,11 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/top_nav.php'); ?>
-                <h2 class="text-center">Customers</h2>
+                <h2 class="text-center">Pet Categories</h2>
                 <hr>
                 <div class="text-right">
                     <a href="#add_modal" class="btn btn-primary" data-toggle="modal">
-                        Add Customer
+                        Add Category
                     </a>
                 </div>
                 <br>
@@ -135,34 +135,19 @@ require_once('../partials/head.php');
                                 <form method="post" enctype="multipart/form-data" role="form">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label for="">Full Name</label>
-                                                <input type="text" required name="customer_name" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="">Email Address</label>
-                                                <input type="text" required name="customer_email" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="">Mobile</label>
-                                                <input type="text" required name="customer_mobile" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="">Login Username</label>
-                                                <input type="text" required name="login_username" class="form-control">
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="">Login Password</label>
-                                                <input type="password" required name="login_password" class="form-control">
-                                            </div>
                                             <div class="form-group col-md-12">
-                                                <label for="">Profession</label>
-                                                <textarea type="text" required name="customer_major" rows="5" class="form-control"></textarea>
+                                                <label for="">Category Name</label>
+                                                <input type="text" required name="category_name" class="form-control">
+                                            </div>
+
+                                            <div class="form-group col-md-12">
+                                                <label for="">Category Details</label>
+                                                <textarea type="text" required name="category_desc" rows="5" class="form-control"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="submit" name="add_customer" class="btn btn-primary">Add Customer</button>
+                                        <button type="submit" name="add_category" class="btn btn-primary">Add Category</button>
                                     </div>
                                 </form>
                                 <!-- End Module Form -->
@@ -185,31 +170,25 @@ require_once('../partials/head.php');
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Contacts</th>
-                                        <th>Profession</th>
+                                        <th>Details</th>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM customer c
-                                    INNER JOIN login l ON c.customer_id = l.login_customer_id";
+                                    $ret = "SELECT * FROM pet_categories";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
-                                    while ($user = $res->fetch_object()) {
+                                    while ($category = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <th><?php echo $user->customer_name; ?></th>
+                                            <th><?php echo $category->category_name; ?></th>
+                                            <td><?php echo $category->category_desc; ?></td>
                                             <td>
-                                                Email: <?php echo $user->customer_email; ?><br>
-                                                Phone: <?php echo $user->customer_mobile; ?>
-                                            </td>
-                                            <td><?php echo $user->customer_major; ?></td>
-                                            <td>
-                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $user->customer_id; ?>">Update Profile</a>
+                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $category->category_id; ?>">Update</a>
                                                 <!-- Update Modal -->
-                                                <div class="modal fade" id="update-<?php echo $user->customer_id; ?>">
+                                                <div class="modal fade" id="update-<?php echo $category->category_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -223,29 +202,20 @@ require_once('../partials/head.php');
                                                                 <form method="post" enctype="multipart/form-data" role="form">
                                                                     <div class="card-body">
                                                                         <div class="row">
-                                                                            <div class="form-group col-md-4">
-                                                                                <label for="">Full Name</label>
-                                                                                <input type="text" value="<?php echo $user->customer_name; ?>" required name="customer_name" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $user->customer_id; ?>" required name="customer_id" class="form-control">
-
-                                                                            </div>
-                                                                            <div class="form-group col-md-4">
-                                                                                <label for="">Email Address</label>
-                                                                                <input type="text" required value="<?php echo $user->customer_email; ?>" name="customer_email" class="form-control">
-                                                                            </div>
-                                                                            <div class="form-group col-md-4">
-                                                                                <label for="">Mobile</label>
-                                                                                <input type="text" value="<?php echo $user->customer_mobile; ?>" required name="customer_mobile" class="form-control">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Category Name</label>
+                                                                                <input type="text" value="<?php echo $category->category_name; ?>" required name="category_name" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $category->category_id; ?>" required name="category_id" class="form-control">
                                                                             </div>
 
                                                                             <div class="form-group col-md-12">
-                                                                                <label for="">Profession / Major</label>
-                                                                                <textarea type="text" required name="customer_major" rows="5" class="form-control"><?php echo $user->customer_major; ?></textarea>
+                                                                                <label for="">Category Details</label>
+                                                                                <textarea type="text" required name="category_desc" rows="5" class="form-control"><?php echo $category->category_desc; ?></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-right">
-                                                                        <button type="submit" name="update_customer" class="btn btn-primary">Update Customer</button>
+                                                                        <button type="submit" name="update_category" class="btn btn-primary">Update Category</button>
                                                                     </div>
                                                                 </form>
                                                                 <!-- End Module Form -->
@@ -255,48 +225,10 @@ require_once('../partials/head.php');
                                                     </div>
                                                 </div>
                                                 <!-- End Modal -->
-                                                <a class="badge badge-warning" data-toggle="modal" href="#login-<?php echo $user->customer_id; ?>">Update Login</a>
-                                                <!-- Update Login -->
-                                                <div class="modal fade" id="login-<?php echo $user->customer_id; ?>">
-                                                    <div class="modal-dialog  modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">Fill All Fields </h4>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <!-- Add Module Form -->
-                                                                <form method="post" enctype="multipart/form-data" role="form">
-                                                                    <div class="card-body">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="">Login Username</label>
-                                                                                <input type="text" value="<?php echo $user->login_username; ?>" required name="login_username" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $user->login_customer_id; ?>" required name="login_customer_id" class="form-control">
 
-                                                                            </div>
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="">Login Password</label>
-                                                                                <input type="password" required name="login_password" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="text-right">
-                                                                        <button type="submit" name="update_login" class="btn btn-primary">Update Customer</button>
-                                                                    </div>
-                                                                </form>
-                                                                <!-- End Module Form -->
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Modal -->
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $user->customer_id; ?>">Delete Account</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $category->category_id; ?>">Delete Account</a>
                                                 <!-- Delete Modal -->
-                                                <div class="modal fade" id="delete-<?php echo $user->customer_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="delete-<?php echo $category->category_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -306,10 +238,10 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body text-center text-danger">
-                                                                <h4>Delete <?php echo $user->customer_name; ?> Account?</h4>
+                                                                <h4>Delete <?php echo $category->category_name; ?></h4>
                                                                 <br>
                                                                 <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                <a href="admin_customers?delete=<?php echo $user->customer_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                <a href="admin_pets_categories?delete=<?php echo $category->category_id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </div>
