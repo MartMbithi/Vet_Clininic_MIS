@@ -98,7 +98,6 @@
                     </a>
                     <ul class="nav collapse" id="page" data-parent="#navbarVerticalCollapse">
                         <li class="nav-item"><a class="nav-link" href="admin_reports_customer_pets">Customer Pets </a></li>
-                        <li class="nav-item"><a class="nav-link" href="admin_reports_pets_ailments">Pets Ailments</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin_reports_clinic_vists">Clinic Visits</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin_reports_customers">Customers</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin_reports_specialists">Specialists</a></li>
