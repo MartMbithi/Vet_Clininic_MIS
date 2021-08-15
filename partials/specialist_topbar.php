@@ -103,7 +103,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="specialis_logout">
+                    <a class="nav-link" href="specialist_logout">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span class="fas fa-power-off"> </span>

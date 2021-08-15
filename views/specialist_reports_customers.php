@@ -47,8 +47,10 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/specialist_top_nav.php'); ?>
-                <h2 class="text-center">Customer Pets Reports</h2>
+                <h2 class="text-center">Customers Reports</h2>
                 <hr>
+
+                <!-- End Modal -->
                 <div class="card mb-6">
                     <div class="card-header">
                         <div class="row align-items-center justify-content-between">
@@ -61,33 +63,27 @@ require_once('../partials/head.php');
                             <table id="export-data-table" class="">
                                 <thead>
                                     <tr>
-                                        <th>Pet Details</th>
-                                        <th>Pet Owner Details</th>
+                                        <th>Name</th>
+                                        <th>Contacts</th>
+                                        <th>Profession</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM customer_pets cp 
-                                    INNER JOIN pets p ON p.pet_id = cp.customer_pet_pet_id
-                                    INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
-                                    INNER JOIN pets_categories pc ON  pc.category_id = p.pet_category_id";
+                                    $ret = "SELECT * FROM customer c
+                                    INNER JOIN login l ON c.customer_id = l.login_customer_id";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
-                                    while ($pet = $res->fetch_object()) {
+                                    while ($user = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <th>
-                                                Name: <?php echo $pet->pet_name; ?><br>
-                                                Age: <?php echo $pet->pet_age; ?><br>
-                                                Sex: <?php echo $pet->pet_sex; ?><br>
-                                                Category : <?php echo $pet->category_name; ?>
-                                            </th>
-                                            <th>
-                                                Name: <?php echo $pet->customer_name; ?><br>
-                                                Email: <?php echo $pet->customer_email; ?><br>
-                                                Mobile No: <?php echo $pet->customer_mobile; ?><br>
-                                            </th>
+                                            <th><?php echo $user->customer_name; ?></th>
+                                            <td>
+                                                Email: <?php echo $user->customer_email; ?><br>
+                                                Phone: <?php echo $user->customer_mobile; ?>
+                                            </td>
+                                            <td><?php echo $user->customer_major; ?></td>
                                         </tr>
                                     <?php
                                     }

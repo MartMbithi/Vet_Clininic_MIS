@@ -47,8 +47,9 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/specialist_top_nav.php'); ?>
-                <h2 class="text-center">Customer Pets Reports</h2>
+                <h2 class="text-center">Clinic Visits Reports</h2>
                 <hr>
+
                 <div class="card mb-6">
                     <div class="card-header">
                         <div class="row align-items-center justify-content-between">
@@ -61,33 +62,46 @@ require_once('../partials/head.php');
                             <table id="export-data-table" class="">
                                 <thead>
                                     <tr>
-                                        <th>Pet Details</th>
-                                        <th>Pet Owner Details</th>
+                                        <th>Pet </th>
+                                        <th>Customer </th>
+                                        <th>Specialist </th>
+                                        <th>Ailment</th>
+                                        <th>Visit Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM customer_pets cp 
+                                    $ret = "SELECT * FROM clinic_visit cv 
+                                    INNER JOIN customer_pets cp ON cp.customer_pet_id = cv.visit_customer_pet_id
                                     INNER JOIN pets p ON p.pet_id = cp.customer_pet_pet_id
                                     INNER JOIN customer c ON c.customer_id = cp.customer_pet_customer_id
-                                    INNER JOIN pets_categories pc ON  pc.category_id = p.pet_category_id";
+                                    INNER JOIN pets_categories pc ON pc.category_id = p.pet_category_id
+                                    INNER JOIN specialist s ON s.specialist_id = cv.visit_specialist_id ";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
-                                    while ($pet = $res->fetch_object()) {
+                                    while ($visit = $res->fetch_object()) {
                                     ?>
                                         <tr>
                                             <th>
-                                                Name: <?php echo $pet->pet_name; ?><br>
-                                                Age: <?php echo $pet->pet_age; ?><br>
-                                                Sex: <?php echo $pet->pet_sex; ?><br>
-                                                Category : <?php echo $pet->category_name; ?>
+                                                Name: <?php echo $visit->pet_name; ?><br>
+                                                Age: <?php echo $visit->pet_age; ?><br>
+                                                Sex:<?php echo $visit->pet_sex; ?> <br>
+                                                Category: <?php echo $visit->category_name; ?>
                                             </th>
                                             <th>
-                                                Name: <?php echo $pet->customer_name; ?><br>
-                                                Email: <?php echo $pet->customer_email; ?><br>
-                                                Mobile No: <?php echo $pet->customer_mobile; ?><br>
+                                                Name: <?php echo $visit->customer_name; ?><br>
+                                                Email: <?php echo $visit->customer_email; ?><br>
+                                                Mobile:<?php echo $visit->customer_mobile; ?> <br>
                                             </th>
+                                            <th>
+                                                Name: <?php echo $visit->specialist_name; ?><br>
+                                                Email: <?php echo $visit->specialist_email; ?><br>
+                                                Mobile:<?php echo $visit->specialist_mobile; ?> <br>
+                                            </th>
+                                            <td><?php echo $visit->visit_ailment; ?></td>
+                                            <td><?php echo date('d M Y', strtotime($visit->visit_date)); ?></td>
+
                                         </tr>
                                     <?php
                                     }
