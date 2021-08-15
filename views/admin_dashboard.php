@@ -26,7 +26,7 @@
 session_start();
 require_once('../config/checklogin.php');
 require_once('../config/config.php');
-require_once('./partials/admin_analytics.php');
+require_once('../partials/admin_analytics.php');
 admin();
 require_once('../partials/head.php');
 ?>
@@ -71,7 +71,7 @@ require_once('../partials/head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">
                                 <?php echo $specialists; ?>
                             </div>
-                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">See All
+                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="admin_specialists">See All
                                 <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ require_once('../partials/head.php');
                             <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif">
                                 <?php echo $pets; ?>
                             </div>
-                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">See All
+                            <a class="font-weight-semi-bold fs--1 text-nowrap" href="admin_pets">See All
                                 <span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
                             </a>
                         </div>
