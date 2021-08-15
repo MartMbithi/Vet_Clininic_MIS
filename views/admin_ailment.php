@@ -67,7 +67,7 @@ if (isset($_POST['update_ailment'])) {
     $ailment_signs = $_POST['ailment_signs'];
 
 
-    $query = "UPDATE ailment  SET ailment_name =?, ailment_desc =?, ailment_signs WHERE ailment_id = ?";
+    $query = "UPDATE ailment  SET ailment_name =?, ailment_desc =?, ailment_signs=? WHERE ailment_id = ?";
 
     $stmt = $mysqli->prepare($query);
     $rc = $stmt->bind_param('ssss', $ailment_name, $ailment_desc, $ailment_signs, $ailment_id);
@@ -114,7 +114,7 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/top_nav.php'); ?>
-                <h2 class="text-center">Ailments</h2>
+                <h2 class="text-center">Pets Ailments</h2>
                 <hr>
                 <div class="text-right">
                     <a href="#add_modal" class="btn btn-primary" data-toggle="modal">
@@ -208,7 +208,31 @@ require_once('../partials/head.php');
                                                             </div>
                                                             <div class="modal-body">
                                                                 <!-- Add Module Form -->
+                                                                <form method="post" enctype="multipart/form-data" role="form">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Ailment Name</label>
+                                                                                <input type="text" value="<?php echo $ailment->ailment_name; ?>" required name="ailment_name" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $ailment->ailment_id; ?>" required name="ailment_id" class="form-control">
 
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Ailment Description</label>
+                                                                                <textarea type="text" required name="ailment_desc" rows="5" class="form-control"><?php echo $ailment->ailment_desc; ?></textarea>
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Ailment Symptoms</label>
+                                                                                <textarea type="text" required name="ailment_signs" rows="5" class="form-control"><?php echo $ailment->ailment_signs; ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right">
+                                                                        <button type="submit" name="update_ailment" class="btn btn-primary">Update Ailment</button>
+                                                                    </div>
+                                                                </form>
                                                                 <!-- End Module Form -->
                                                             </div>
 
