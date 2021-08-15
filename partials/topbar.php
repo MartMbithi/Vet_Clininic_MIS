@@ -27,7 +27,7 @@
                     <a class="nav-link" href="admin_specialists">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-home"> </span>
+                                <span class="fas fa-user-nurse"> </span>
                             </span>
                             <span class="nav-link-text"> Specialists</span>
                         </div>
@@ -37,7 +37,7 @@
                     <a class="nav-link" href="admin_customers">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-home"> </span>
+                                <span class="fas fa-users"> </span>
                             </span>
                             <span class="nav-link-text"> Customers</span>
                         </div>
@@ -47,7 +47,7 @@
                     <a class="nav-link" href="admin_pets_categories">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-home"> </span>
+                                <span class="fas fa-paw"> </span>
                             </span>
                             <span class="nav-link-text"> Pets Categories</span>
                         </div>
@@ -57,7 +57,7 @@
                     <a class="nav-link" href="admin_pets">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-home"> </span>
+                                <span class="fas fa-cat"> </span>
                             </span>
                             <span class="nav-link-text"> Pets</span>
                         </div>
@@ -67,7 +67,7 @@
                     <a class="nav-link dropdown-indicator" href="#pages" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="pages">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-copy"></span>
+                                <span class="fas fa-viruses"></span>
                             </span>
                             <span class="nav-link-text">Ailments</span>
                         </div>
@@ -81,7 +81,7 @@
                     <a class="nav-link" href="admin_clinic_vists">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-home"> </span>
+                                <span class="fas fa-clinic-medical"> </span>
                             </span>
                             <span class="nav-link-text"> Clinic Visits</span>
                         </div>
