@@ -45,7 +45,7 @@ if (isset($_POST['add_specialist'])) {
 
 
     /* Prevent Double Entries */
-    $sql = "SELECT * FROM  specialist WHERE  specialist_email='$specialist_email' || specialist_mobile = '$custspecialist_mobileomer_mobile'  ";
+    $sql = "SELECT * FROM  specialist WHERE  specialist_email='$specialist_email' || specialist_mobile = '$specialist_mobile'  ";
     $res = mysqli_query($mysqli, $sql);
     if (mysqli_num_rows($res) > 0) {
         $row = mysqli_fetch_assoc($res);
@@ -96,7 +96,7 @@ if (isset($_POST['update_specialist'])) {
 }
 
 /* Update Login Details */
-if (isset($_POST['add_specialist'])) {
+if (isset($_POST['update_login'])) {
     /*  Login Attributes */
     $login_specialist_id = $_POST['login_specialist_id'];
     $login_username = $_POST['login_username'];
@@ -231,7 +231,7 @@ require_once('../partials/head.php');
                                 <tbody>
                                     <?php
                                     $ret = "SELECT * FROM specialist s
-                                    INNER JOIN login l ON s.specialist_id = l.login_admin_id";
+                                    INNER JOIN login l ON s.specialist_id = l.login_specialist_id";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
@@ -240,14 +240,65 @@ require_once('../partials/head.php');
                                         <tr>
                                             <th><?php echo $user->specialist_name; ?></th>
                                             <td>
-                                                Email : <?php echo $user->specialist_email; ?><br>
-                                                Phone : <?php echo $user->specialist_mobile; ?>
+                                                Email: <?php echo $user->specialist_email; ?><br>
+                                                Phone: <?php echo $user->specialist_mobile; ?>
                                             </td>
                                             <td><?php echo $user->specialist_major; ?></td>
                                             <td>
-                                                <a class="badge bg-warning" data-toggle="modal" href="#update-<?php echo $user->specialist_id; ?>">Update</a>
-                                                <a class="badge bg-warning" data-toggle="modal" href="#login-<?php echo $user->specialist_id; ?>">Update Login</a>
-                                                <a class="badge bg-danger" data-toggle="modal" href="#delete-<?php echo $user->specialist_id; ?>">Delete</a>
+                                                <a class="badge badge-warning" data-toggle="modal" href="#update-<?php echo $user->specialist_id; ?>">Update Profile</a>
+                                                <!-- Update Modal -->
+                                                <div class="modal fade" id="update-<?php echo $user->specialist_id; ?>">
+                                                    <div class="modal-dialog  modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Fill All Fields </h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- Add Module Form -->
+                                                                <form method="post" enctype="multipart/form-data" role="form">
+                                                                    <div class="card-body">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="">Full Name</label>
+                                                                                <input type="text" value="<?php echo $user->specialist_name; ?>" required name="specialist_name" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $user->specialist_id; ?>" required name="specialist_id" class="form-control">
+
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="">Email Address</label>
+                                                                                <input type="text" required value="<?php echo $user->specialist_email; ?>" name="specialist_email" class="form-control">
+                                                                            </div>
+                                                                            <div class="form-group col-md-4">
+                                                                                <label for="">Mobile</label>
+                                                                                <input type="text" value="<?php echo $user->specialist_mobile; ?>" required name="specialist_mobile" class="form-control">
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="">Specialization / Major</label>
+                                                                                <textarea type="text" required name="specialist_major" rows="5" class="form-control"><?php echo $user->specialist_major; ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-right">
+                                                                        <button type="submit" name="update_specialist" class="btn btn-primary">Update Specialist</button>
+                                                                    </div>
+                                                                </form>
+                                                                <!-- End Module Form -->
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Modal -->
+                                                <a class="badge badge-warning" data-toggle="modal" href="#login-<?php echo $user->specialist_id; ?>">Update Login</a>
+                                                <!-- Update Login -->
+                                                <!-- End Modal -->
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $user->specialist_id; ?>">Delete Account</a>
+                                                <!-- Delete Modal -->
+                                                <!-- End Modal -->
                                             </td>
                                         </tr>
                                     <?php
