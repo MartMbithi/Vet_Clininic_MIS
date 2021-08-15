@@ -149,11 +149,11 @@ require_once('../partials/head.php');
             <div class="content">
                 <!-- Navigation -->
                 <?php require_once('../partials/top_nav.php'); ?>
-                <h2 class="text-center">Specialists</h2>
+                <h2 class="text-center">Customers</h2>
                 <hr>
                 <div class="text-right">
                     <a href="#add_modal" class="btn btn-primary" data-toggle="modal">
-                        Add Specialist
+                        Add Customer
                     </a>
                 </div>
                 <br>
@@ -174,15 +174,15 @@ require_once('../partials/head.php');
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label for="">Full Name</label>
-                                                <input type="text" required name="specialist_name" class="form-control">
+                                                <input type="text" required name="customer_name" class="form-control">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Email Address</label>
-                                                <input type="text" required name="specialist_email" class="form-control">
+                                                <input type="text" required name="customer_email" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Mobile</label>
-                                                <input type="text" required name="specialist_mobile" class="form-control">
+                                                <input type="text" required name="customer_mobile" class="form-control">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="">Login Username</label>
@@ -193,13 +193,13 @@ require_once('../partials/head.php');
                                                 <input type="password" required name="login_password" class="form-control">
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <label for="">Specialization / Major</label>
-                                                <textarea type="text" required name="specialist_major" rows="5" class="form-control"></textarea>
+                                                <label for="">Profession</label>
+                                                <textarea type="text" required name="customer_major" rows="5" class="form-control"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-right">
-                                        <button type="submit" name="add_specialist" class="btn btn-primary">Add Specialist</button>
+                                        <button type="submit" name="add_customer" class="btn btn-primary">Add Customer</button>
                                     </div>
                                 </form>
                                 <!-- End Module Form -->
@@ -223,30 +223,30 @@ require_once('../partials/head.php');
                                     <tr>
                                         <th>Name</th>
                                         <th>Contacts</th>
-                                        <th>Specialization</th>
+                                        <th>Profession</th>
                                         <th>Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ret = "SELECT * FROM specialist s
-                                    INNER JOIN login l ON s.specialist_id = l.login_specialist_id";
+                                    $ret = "SELECT * FROM customers c
+                                    INNER JOIN login l ON c.customer_id = l.login_customer_id";
                                     $stmt = $mysqli->prepare($ret);
                                     $stmt->execute(); //ok
                                     $res = $stmt->get_result();
                                     while ($user = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <th><?php echo $user->specialist_name; ?></th>
+                                            <th><?php echo $user->customer_name; ?></th>
                                             <td>
-                                                Email: <?php echo $user->specialist_email; ?><br>
-                                                Phone: <?php echo $user->specialist_mobile; ?>
+                                                Email: <?php echo $user->customer_email; ?><br>
+                                                Phone: <?php echo $user->customer_mobile; ?>
                                             </td>
-                                            <td><?php echo $user->specialist_major; ?></td>
+                                            <td><?php echo $user->customer_major; ?></td>
                                             <td>
-                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $user->specialist_id; ?>">Update Profile</a>
+                                                <a class="badge badge-primary" data-toggle="modal" href="#update-<?php echo $user->customer_id; ?>">Update Profile</a>
                                                 <!-- Update Modal -->
-                                                <div class="modal fade" id="update-<?php echo $user->specialist_id; ?>">
+                                                <div class="modal fade" id="update-<?php echo $user->customer_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -262,27 +262,27 @@ require_once('../partials/head.php');
                                                                         <div class="row">
                                                                             <div class="form-group col-md-4">
                                                                                 <label for="">Full Name</label>
-                                                                                <input type="text" value="<?php echo $user->specialist_name; ?>" required name="specialist_name" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $user->specialist_id; ?>" required name="specialist_id" class="form-control">
+                                                                                <input type="text" value="<?php echo $user->customer_name; ?>" required name="customer_name" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $user->customer_id; ?>" required name="customer_id" class="form-control">
 
                                                                             </div>
                                                                             <div class="form-group col-md-4">
                                                                                 <label for="">Email Address</label>
-                                                                                <input type="text" required value="<?php echo $user->specialist_email; ?>" name="specialist_email" class="form-control">
+                                                                                <input type="text" required value="<?php echo $user->customer_email; ?>" name="customer_email" class="form-control">
                                                                             </div>
                                                                             <div class="form-group col-md-4">
                                                                                 <label for="">Mobile</label>
-                                                                                <input type="text" value="<?php echo $user->specialist_mobile; ?>" required name="specialist_mobile" class="form-control">
+                                                                                <input type="text" value="<?php echo $user->customer_mobile; ?>" required name="customer_mobile" class="form-control">
                                                                             </div>
 
                                                                             <div class="form-group col-md-12">
-                                                                                <label for="">Specialization / Major</label>
-                                                                                <textarea type="text" required name="specialist_major" rows="5" class="form-control"><?php echo $user->specialist_major; ?></textarea>
+                                                                                <label for="">Profession / Major</label>
+                                                                                <textarea type="text" required name="customer_profession" rows="5" class="form-control"><?php echo $user->customer_profession; ?></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-right">
-                                                                        <button type="submit" name="update_specialist" class="btn btn-primary">Update Specialist</button>
+                                                                        <button type="submit" name="update_customer" class="btn btn-primary">Update Customer</button>
                                                                     </div>
                                                                 </form>
                                                                 <!-- End Module Form -->
@@ -292,9 +292,9 @@ require_once('../partials/head.php');
                                                     </div>
                                                 </div>
                                                 <!-- End Modal -->
-                                                <a class="badge badge-warning" data-toggle="modal" href="#login-<?php echo $user->specialist_id; ?>">Update Login</a>
+                                                <a class="badge badge-warning" data-toggle="modal" href="#login-<?php echo $user->customer_id; ?>">Update Login</a>
                                                 <!-- Update Login -->
-                                                <div class="modal fade" id="login-<?php echo $user->specialist_id; ?>">
+                                                <div class="modal fade" id="login-<?php echo $user->customer_id; ?>">
                                                     <div class="modal-dialog  modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -311,7 +311,7 @@ require_once('../partials/head.php');
                                                                             <div class="form-group col-md-6">
                                                                                 <label for="">Login Username</label>
                                                                                 <input type="text" value="<?php echo $user->login_username; ?>" required name="login_username" class="form-control">
-                                                                                <input type="hidden" value="<?php echo $user->login_specialist_id; ?>" required name="login_specialist_id" class="form-control">
+                                                                                <input type="hidden" value="<?php echo $user->login_customer_id; ?>" required name="login_customer_id" class="form-control">
 
                                                                             </div>
                                                                             <div class="form-group col-md-6">
@@ -321,7 +321,7 @@ require_once('../partials/head.php');
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-right">
-                                                                        <button type="submit" name="update_login" class="btn btn-primary">Update Specialist</button>
+                                                                        <button type="submit" name="update_login" class="btn btn-primary">Update Customer</button>
                                                                     </div>
                                                                 </form>
                                                                 <!-- End Module Form -->
@@ -331,9 +331,9 @@ require_once('../partials/head.php');
                                                     </div>
                                                 </div>
                                                 <!-- End Modal -->
-                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $user->specialist_id; ?>">Delete Account</a>
+                                                <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $user->customer_id; ?>">Delete Account</a>
                                                 <!-- Delete Modal -->
-                                                <div class="modal fade" id="delete-<?php echo $user->specialist_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="delete-<?php echo $user->customer_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -343,10 +343,10 @@ require_once('../partials/head.php');
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body text-center text-danger">
-                                                                <h4>Delete <?php echo $user->specialist_name; ?> Account?</h4>
+                                                                <h4>Delete <?php echo $user->customer; ?> Account?</h4>
                                                                 <br>
                                                                 <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                <a href="admin_specialists?delete=<?php echo $user->specialist_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                <a href="admin_customers?delete=<?php echo $user->customer_id; ?>" class="text-center btn btn-danger"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </div>
